@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Havish Pydimarri — Computer Engineering</title>
+<meta name="description" content="Portfolio of Havish Pydimarri, Computer Engineering student at Iowa State University.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07070b; --bg2:#0e0e15; --line:#1d1d29; --text:#ecebf2; --muted:#9a98ab;
+    --cardinal:#e0213f; --gold:#f1be48; --glow:rgba(224,33,63,.35);
+    --mono:'JetBrains Mono',ui-monospace,monospace; --sans:'Space Grotesk',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--cardinal);color:#fff}
+  a{color:inherit}
+
+  /* cursor glow */
+  #glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:1;
+    background:radial-gradient(circle,rgba(224,33,63,.13),transparent 65%);transform:translate(-50%,-50%);left:-999px;top:-999px;transition:opacity .3s}
+
+  /* nav */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+    padding:18px clamp(16px,4vw,48px);backdrop-filter:blur(10px);background:linear-gradient(var(--bg),rgba(7,7,11,.6));border-bottom:1px solid transparent;transition:border-color .3s}
+  nav.scrolled{border-color:var(--line)}
+  .logo{font-family:var(--mono);font-weight:600;font-size:15px;text-decoration:none;letter-spacing:.5px}
+  .logo span{color:var(--cardinal)}
+  .links{display:flex;gap:clamp(14px,3vw,34px)}
+  .links a{font-family:var(--mono);font-size:13px;text-decoration:none;color:var(--muted);transition:color .2s;position:relative}
+  .links a b{color:var(--gold);font-weight:400;margin-right:4px}
+  .links a:hover,.links a.active{color:var(--text)}
+  .links a.active::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--cardinal);box-shadow:0 0 10px var(--cardinal)}
+
+  section{position:relative;z-index:2;min-height:100vh;padding:120px clamp(16px,6vw,96px) 80px}
+  .tag{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:1px;margin-bottom:18px;display:block}
+  .tag::before{content:"// ";color:var(--muted)}
+
+  /* hero */
+  #home{display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+  #circuit{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .hero-inner{position:relative;z-index:2;max-width:1200px}
+  .name{font-size:clamp(52px,12vw,168px);font-weight:700;line-height:.9;letter-spacing:-.04em;text-transform:uppercase}
+  .name .row{display:block}
+  .name .row:last-child{-webkit-text-stroke:2px var(--text);color:transparent;position:relative}
+  .name .row:last-child::after{content:attr(data-text);position:absolute;left:0;top:0;color:var(--cardinal);-webkit-text-stroke:0;
+    clip-path:inset(0 100% 0 0);animation:fill 1.6s 1.4s cubic-bezier(.7,0,.2,1) forwards;text-shadow:0 0 40px var(--glow)}
+  @keyframes fill{to{clip-path:inset(0 0 0 0)}}
+  .sub{margin-top:34px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:clamp(17px,2.2vw,24px)}
+  .sub .pill{padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(14,14,21,.75);backdrop-filter:blur(6px)}
+  .sub .pill.gold{border-color:rgba(241,190,72,.4);color:var(--gold)}
+  .term{margin-top:28px;font-family:var(--mono);font-size:clamp(13px,1.6vw,16px);color:var(--muted)}
+  .term .p{color:var(--cardinal)} .caret{display:inline-block;width:9px;height:1.1em;background:var(--gold);vertical-align:-3px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .cta{margin-top:44px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{font-family:var(--mono);font-size:14px;text-decoration:none;padding:14px 24px;border-radius:10px;border:1px solid var(--line);
+    background:var(--bg2);transition:transform .2s,box-shadow .2s,border-color .2s;display:inline-flex;gap:10px;align-items:center;cursor:pointer;color:var(--text)}
+  .btn:hover{transform:translateY(-3px);border-color:var(--cardinal);box-shadow:0 10px 30px -10px var(--glow)}
+  .btn.primary{background:var(--cardinal);border-color:var(--cardinal);color:#fff}
+  .scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;font-family:var(--mono);font-size:11px;color:var(--muted);
+    display:flex;flex-direction:column;align-items:center;gap:10px;letter-spacing:2px}
+  .scroll i{width:1px;height:46px;background:linear-gradient(var(--gold),transparent);animation:drip 1.8s infinite}
+  @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+  /* about */
+  .big{font-size:clamp(30px,5vw,64px);font-weight:700;line-height:1.05;letter-spacing:-.02em;max-width:1100px}
+  .big em{font-style:normal;color:var(--cardinal)} .big u{text-decoration:none;color:var(--gold)}
+  .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(28px,5vw,72px);margin-top:60px;max-width:1200px}
+  .about-grid p{font-size:clamp(16px,1.5vw,19px);line-height:1.7;color:#cfcdd9;margin-bottom:20px}
+  .about-grid p strong{color:var(--text)}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start}
+  .stat{border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--bg2);position:relative;overflow:hidden}
+  .stat::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(224,33,63,.18),transparent 60%);opacity:0;transition:opacity .3s}
+  .stat:hover::before{opacity:1}
+  .stat .n{font-size:40px;font-weight:700;letter-spacing:-.03em} .stat .n span{color:var(--gold)}
+  .stat .l{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .h3{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin:70px 0 22px}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1200px}
+  .card{border:1px solid var(--line);border-radius:16px;padding:24px;background:linear-gradient(160deg,var(--bg2),var(--bg));
+    transition:transform .3s,border-color .3s;transform-style:preserve-3d}
+  .card:hover{border-color:rgba(241,190,72,.5)}
+  .card .ic{font-family:var(--mono);color:var(--cardinal);font-size:22px;margin-bottom:18px}
+  .card h4{font-size:19px;margin-bottom:8px} .card p{color:var(--muted);font-size:14px;line-height:1.6}
+  .now{display:flex;flex-wrap:wrap;gap:10px;max-width:1200px}
+  .chip{font-family:var(--mono);font-size:13px;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg2)}
+  .chip b{color:var(--gold);font-weight:600}
+
+  /* resume */
+  .res-head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:24px;max-width:1200px}
+  .res{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(28px,5vw,72px);margin-top:56px;max-width:1200px}
+  .block{margin-bottom:44px}
+  .block h5{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--cardinal);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+  .block h5::after{content:"";flex:1;height:1px;background:var(--line)}
+  .edu{margin-bottom:22px} .edu h6{font-size:19px;font-weight:700} .edu div{color:var(--muted);font-size:15px;margin-top:4px}
+  .skill-row{margin-bottom:16px} .skill-row .k{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:8px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tags span{font-size:13px;padding:6px 12px;border-radius:8px;background:#15151f;border:1px solid var(--line)}
+  .tl{position:relative;padding-left:28px;border-left:1px solid var(--line)}
+  .role{position:relative;margin-bottom:34px}
+  .role::before{content:"";position:absolute;left:-34px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--cardinal);box-shadow:0 0 12px var(--glow)}
+  .role h6{font-size:19px;font-weight:700} .role .org{font-family:var(--mono);font-size:12px;color:var(--gold);margin:6px 0 12px}
+  .role ul{list-style:none} .role li{color:#c9c7d4;font-size:15px;line-height:1.6;margin-bottom:7px;padding-left:18px;position:relative}
+  .role li::before{content:"▹";position:absolute;left:0;color:var(--cardinal)}
+  details.pdf{max-width:1200px;margin-top:10px;border:1px solid var(--line);border-radius:16px;background:var(--bg2);overflow:hidden}
+  details.pdf summary{cursor:pointer;padding:18px 22px;font-family:var(--mono);font-size:14px;list-style:none}
+  details.pdf summary::before{content:"+ ";color:var(--cardinal)} details.pdf[open] summary::before{content:"− "}
+  details.pdf iframe{width:100%;height:85vh;border:0;background:#fff;display:block}
+
+  footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:56px clamp(16px,6vw,96px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:center}
+  footer .big{font-size:clamp(26px,4vw,44px)}
+  footer .contact{display:flex;gap:12px;flex-wrap:wrap}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    .about-grid,.res{grid-template-columns:1fr}
+    .cards{grid-template-columns:1fr 1fr}
+    .name .row:last-child{-webkit-text-stroke:1.5px var(--text)}
+  }
+  @media (max-width:560px){
+    .cards{grid-template-columns:1fr}
+    .links a b{display:none}
+    #glow{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .name .row:last-child::after{clip-path:none}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<div id="glow"></div>
+
+<nav id="nav">
+  <a href="#home" class="logo">HP<span>_</span></a>
+  <div class="links">
+    <a href="#home" class="active"><b>01</b>Home</a>
+    <a href="#about"><b>02</b>About</a>
+    <a href="#resume"><b>03</b>Resume</a>
+  </div>
+</nav>
+
+<!-- 01 HOME -->
+<section id="home">
+  <canvas id="circuit"></canvas>
+  <div class="hero-inner">
+    <span class="tag">portfolio.init()</span>
+    <h1 class="name">
+      <span class="row scramble" data-final="Havish">Havish</span>
+      <span class="row" data-text="Pydimarri">Pydimarri</span>
+    </h1>
+    <div class="sub">
+      <span class="pill">Computer Engineering</span>
+      <span class="pill gold">Iowa State University</span>
+    </div>
+    <div class="term"><span class="p">havish@isu:~$</span> <span id="typed"></span><span class="caret"></span></div>
+    <div class="cta">
+      <a href="#about" class="btn primary">About me →</a>
+      <a href="#resume" class="btn">View résumé</a>
+    </div>
+  </div>
+  <div class="scroll">SCROLL<i></i></div>
+</section>
+
+<!-- 02 ABOUT -->
+<section id="about">
+  <span class="tag reveal">02 — about me</span>
+  <h2 class="big reveal">I build where <em>hardware</em> meets <u>software</u>, and I like leading the people who make it happen.</h2>
+
+  <div class="about-grid">
+    <div class="reveal">
+      <p>Hi, I'm <strong>Havish Pydimarri</strong>, a <strong>Computer Engineering</strong> student at <strong>Iowa State University</strong>. I started my engineering journey studying Computer Science at <strong>BITS Pilani, Hyderabad Campus</strong>, and I'm now building on that foundation in Ames.</p>
+      <p>My interests sit at two ends of the stack. On one side, I'm drawn to <strong>Large Language Models, Retrieval-Augmented Generation, backend engineering</strong> and designing systems that scale. On the other, this semester I'm programming the <strong>CyBot</strong>, an autonomous robot, in C for Embedded Systems (CPRE 288), and learning how circuits actually behave in EE 2300.</p>
+      <p>Outside the lab, I've spent a lot of time leading. I represented <strong>700+ students</strong> as a hostel representative, secured sponsorships for tech expos and overnight hackathons, and ran logistics for a campus technical festival. Those roles taught me that good engineering is as much about people as it is about code.</p>
+      <p>I'm looking for a <strong>Summer 2027 internship</strong> where I can build real systems and keep learning fast.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><div class="n" data-count="700">0<span>+</span></div><div class="l">students represented as hostel rep</div></div>
+      <div class="stat"><div class="n" data-count="4">0</div><div class="l">leadership roles across campus orgs</div></div>
+      <div class="stat"><div class="n" data-count="2">0</div><div class="l">universities, two countries</div></div>
+      <div class="stat"><div class="n">'27</div><div class="l">seeking summer internship</div></div>
+    </div>
+  </div>
+
+  <div class="h3 reveal">What I'm into</div>
+  <div class="cards">
+    <div class="card reveal"><div class="ic">{ai}</div><h4>LLMs &amp; RAG</h4><p>How language models retrieve, reason over and ground answers in real data.</p></div>
+    <div class="card reveal"><div class="ic">&lt;/&gt;</div><h4>Backend Engineering</h4><p>APIs, databases and the services that keep applications running.</p></div>
+    <div class="card reveal"><div class="ic">[∞]</div><h4>Scalable Systems</h4><p>Designing systems that stay fast and reliable as they grow.</p></div>
+    <div class="card reveal"><div class="ic">⌁</div><h4>Embedded Systems</h4><p>C on microcontrollers: sensors, motors and robots that respond to the world.</p></div>
+  </div>
+
+  <div class="h3 reveal">Currently</div>
+  <div class="now reveal">
+    <span class="chip"><b>CPRE 288</b> Embedded Systems · CyBot</span>
+    <span class="chip"><b>EE 2300</b> Electronic Circuits</span>
+    <span class="chip"><b>CPRE/EE 2320</b> Engineering Ethics</span>
+  </div>
+</section>
+
+<!-- 03 RESUME -->
+<section id="resume">
+  <div class="res-head">
+    <div>
+      <span class="tag reveal">03 — résumé</span>
+      <h2 class="big reveal">Experience &amp; <em>education</em></h2>
+    </div>
+    <div class="cta reveal" style="margin-top:0">
+      <a href="Havish_Pydimarri_Resume.pdf" download class="btn primary">↓ Download PDF</a>
+      <a href="Havish_Pydimarri_Resume.pdf" target="_blank" rel="noopener" class="btn">Open in new tab ↗</a>
+    </div>
+  </div>
+
+  <div class="res">
+    <div>
+      <div class="block reveal">
+        <h5>Education</h5>
+        <div class="edu"><h6>Iowa State University</h6><div>B.S. Computer Engineering</div></div>
+        <div class="edu"><h6>BITS Pilani, Hyderabad Campus</h6><div>B.E. Computer Science</div></div>
+      </div>
+      <div class="block reveal">
+        <h5>Skills</h5>
+        <div class="skill-row"><div class="k">Languages</div><div class="tags"><span>Python</span><span>C</span></div></div>
+        <div class="skill-row"><div class="k">Coursework</div><div class="tags"><span>Data Structures &amp; Algorithms</span><span>OOP</span><span>Web Development</span><span>Relational Databases</span><span>Embedded Systems</span></div></div>
+        <div class="skill-row"><div class="k">Interests</div><div class="tags"><span>LLMs</span><span>RAG</span><span>Backend</span><span>Scalable Systems</span></div></div>
+      </div>
+      <div class="block reveal">
+        <h5>Contact</h5>
+        <div class="tags">
+          <span><a href="mailto:havish4u@iastate.edu">havish4u@iastate.edu</a></span>
+          <span><a href="https://linkedin.com/in/sai-havish-4b95642b9" target="_blank" rel="noopener">LinkedIn ↗</a></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block reveal">
+      <h5>Leadership</h5>
+      <div class="tl">
+        <div class="role">
+          <h6>Hostel Representative</h6><div class="org">BITS Pilani, Hyderabad Campus</div>
+          <ul>
+            <li>Represented 700+ students, turning feedback and pain points into actionable proposals for administration.</li>
+            <li>Prioritized and escalated concerns by impact and urgency, driving faster resolution.</li>
+            <li>Aligned faculty, administration and student bodies, and communicated decisions transparently to keep trust high.</li>
+          </ul>
+        </div>
+        <div class="role">
+          <h6>Coordinator, Innovation Cell</h6><div class="org">BITS Pilani, Hyderabad Campus</div>
+          <ul>
+            <li>Secured sponsorships for the Tech Expo and Overnight Hackathons, expanding their scale and visibility.</li>
+            <li>Organized hands-on technical workshops and partnered with technical clubs to grow innovation on campus.</li>
+          </ul>
+        </div>
+        <div class="role">
+          <h6>Head, Revenue &amp; Marketing</h6><div class="org">BITS Pilani, Hyderabad Campus</div>
+          <ul>
+            <li>Revamped the sponsorship approach with AI-powered design, producing more tailored brand proposals.</li>
+            <li>Mentored team members in building their own successful brand partnerships.</li>
+          </ul>
+        </div>
+        <div class="role">
+          <h6>Logistics Lead</h6><div class="org">Campus Technical Festival</div>
+          <ul>
+            <li>Directed venue management, resource allocation, scheduling and on-ground operations for a large-scale fest.</li>
+            <li>Coordinated teams, vendors and stakeholders for smooth, on-time execution.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <details class="pdf reveal">
+    <summary>View full résumé (PDF)</summary>
+    <iframe src="Havish_Pydimarri_Resume.pdf" title="Havish Pydimarri résumé" loading="lazy"></iframe>
+  </details>
+</section>
+
+<footer>
+  <div class="big">Let's build something<em style="font-style:normal;color:var(--cardinal)">.</em></div>
+  <div class="contact">
+    <a class="btn primary" href="mailto:havish4u@iastate.edu">Email me</a>
+    <a class="btn" href="https://linkedin.com/in/sai-havish-4b95642b9" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</footer>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- circuit board canvas ---------- */
+(() => {
+  const c = document.getElementById('circuit'), x = c.getContext('2d');
+  let W, H, traces = [], pulses = [], mouse = {x:-1e4, y:-1e4};
+  const G = 28, dirs = [[1,0],[0,1],[-1,0],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+  function build(){
+    const dpr = Math.min(devicePixelRatio||1, 2);
+    W = c.offsetWidth; H = c.offsetHeight;
+    c.width = W*dpr; c.height = H*dpr; x.setTransform(dpr,0,0,dpr,0,0);
+    traces = []; pulses = [];
+    const n = Math.round(W*H/16000);
+    for (let i=0;i<n;i++){
+      let px = Math.round(Math.random()*W/G)*G, py = Math.round(Math.random()*H/G)*G;
+      let d = dirs[Math.floor(Math.random()*4)], pts=[[px,py]];
+      const segs = 2+Math.floor(Math.random()*4);
+      for (let s=0;s<segs;s++){
+        const len = (2+Math.floor(Math.random()*6))*G;
+        px += d[0]*len*(d[0]&&d[1]?.7071:1); py += d[1]*len*(d[0]&&d[1]?.7071:1);
+        pts.push([px,py]);
+        const turn = Math.random()<.5?1:-1, idx = dirs.findIndex(v=>v[0]===d[0]&&v[1]===d[1]);
+        const ring=[[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]];
+        const r = ring.findIndex(v=>v[0]===d[0]&&v[1]===d[1]);
+        d = ring[(r+turn+8)%8];
+      }
+      let L=0; const segL=[]; for(let k=1;k<pts.length;k++){const l=Math.hypot(pts[k][0]-pts[k-1][0],pts[k][1]-pts[k-1][1]);segL.push(l);L+=l}
+      traces.push({pts,segL,L,gold:Math.random()<.18});
+    }
+    for (let i=0;i<Math.round(n*.45);i++) spawn();
+  }
+  function spawn(){ const t = traces[Math.floor(Math.random()*traces.length)]; pulses.push({t, p:0, v:1.2+Math.random()*2.2}); }
+  function at(t,dist){
+    for(let k=0;k<t.segL.length;k++){ if(dist<=t.segL[k]){const a=t.pts[k],b=t.pts[k+1],f=dist/t.segL[k];return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]} dist-=t.segL[k]; }
+    return t.pts[t.pts.length-1];
+  }
+  function frame(){
+    x.clearRect(0,0,W,H);
+    for(const t of traces){
+      const [sx,sy]=t.pts[0], near = Math.hypot(sx-mouse.x, sy-mouse.y) < 220;
+      x.strokeStyle = near ? (t.gold?'rgba(241,190,72,.45)':'rgba(224,33,63,.45)') : 'rgba(255,255,255,.06)';
+      x.lineWidth = 1.2; x.beginPath(); x.moveTo(sx,sy); for(const p of t.pts.slice(1)) x.lineTo(p[0],p[1]); x.stroke();
+      const e=t.pts[t.pts.length-1];
+      x.fillStyle = near?'rgba(241,190,72,.8)':'rgba(255,255,255,.12)';
+      x.beginPath(); x.arc(sx,sy,2.4,0,7); x.fill();
+      x.strokeStyle = x.fillStyle; x.beginPath(); x.arc(e[0],e[1],3.5,0,7); x.stroke();
+    }
+    for(let i=pulses.length-1;i>=0;i--){
+      const q=pulses[i]; q.p+=q.v;
+      if(q.p>q.t.L){pulses.splice(i,1); spawn(); continue;}
+      const [px,py]=at(q.t,q.p), col=q.t.gold?'241,190,72':'224,33,63';
+      const g=x.createRadialGradient(px,py,0,px,py,14); g.addColorStop(0,`rgba(${col},.9)`); g.addColorStop(1,`rgba(${col},0)`);
+      x.fillStyle=g; x.beginPath(); x.arc(px,py,14,0,7); x.fill();
+      x.fillStyle='#fff'; x.beginPath(); x.arc(px,py,1.6,0,7); x.fill();
+    }
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  addEventListener('resize', ()=>{build(); if(reduce) frame();});
+  c.parentElement.addEventListener('mousemove', e=>{const r=c.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top;});
+  build(); frame();
+})();
+
+/* ---------- name scramble ---------- */
+(() => {
+  const el = document.querySelector('.scramble'); if(!el||reduce) return;
+  const final = el.dataset.final, chars = '!<>-_\\/[]{}—=+*^?#01ABCDEFX';
+  let f = 0;
+  const tick = () => {
+    el.textContent = final.split('').map((ch,i)=> f > i*6+8 ? ch : chars[Math.floor(Math.random()*chars.length)]).join('');
+    if (f++ < final.length*6+10) requestAnimationFrame(tick);
+  };
+  tick();
+})();
+
+/* ---------- typing terminal ---------- */
+(() => {
+  const el = document.getElementById('typed');
+  const lines = ['whoami → computer engineering student', 'interests → LLMs · RAG · backend · embedded', 'location → Ames, Iowa', 'status → seeking Summer 2027 internship'];
+  if (reduce){ el.textContent = lines[0]; return; }
+  let li=0, ci=0, del=false;
+  const step = () => {
+    const s = lines[li];
+    el.textContent = s.slice(0, ci);
+    if(!del && ci<s.length){ ci++; setTimeout(step, 38); }
+    else if(!del){ del=true; setTimeout(step, 1800); }
+    else if(ci>0){ ci--; setTimeout(step, 16); }
+    else { del=false; li=(li+1)%lines.length; setTimeout(step, 300); }
+  };
+  setTimeout(step, 900);
+})();
+
+/* ---------- reveal + counters ---------- */
+(() => {
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(!e.isIntersecting) return;
+    e.target.classList.add('in');
+    e.target.querySelectorAll('[data-count]').forEach(n => {
+      const end = +n.dataset.count, suf = n.querySelector('span')?.outerHTML || '';
+      if (reduce){ n.innerHTML = end + suf; return; }
+      const t0 = performance.now();
+      const run = t => { const k = Math.min(1,(t-t0)/1400), v = Math.round(end*(1-Math.pow(1-k,3))); n.innerHTML = v + suf; if(k<1) requestAnimationFrame(run); };
+      requestAnimationFrame(run);
+    });
+    io.unobserve(e.target);
+  }), {threshold:.15});
+  document.querySelectorAll('.reveal').forEach((el,i) => { el.style.transitionDelay = (i%4)*80+'ms'; io.observe(el); });
+})();
+
+/* ---------- nav state ---------- */
+(() => {
+  const nav = document.getElementById('nav'), links = [...document.querySelectorAll('.links a')];
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20), {passive:true});
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+e.target.id));
+  }), {rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('section').forEach(s => io.observe(s));
+})();
+
+/* ---------- cursor glow, card tilt, stat spotlight ---------- */
+(() => {
+  if (reduce || matchMedia('(hover:none)').matches) return;
+  const g = document.getElementById('glow');
+  addEventListener('mousemove', e => { g.style.left = e.clientX+'px'; g.style.top = e.clientY+'px'; });
+  document.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('mousemove', e => { const r=c.getBoundingClientRect(), px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
+      c.style.transform = `perspective(700px) rotateY(${px*12}deg) rotateX(${-py*12}deg) translateY(-4px)`; });
+    c.addEventListener('mouseleave', () => c.style.transform = '');
+  });
+  document.querySelectorAll('.stat').forEach(s => s.addEventListener('mousemove', e => {
+    const r=s.getBoundingClientRect(); s.style.setProperty('--x', (e.clientX-r.left)+'px'); s.style.setProperty('--y', (e.clientY-r.top)+'px');
+  }));
+})();
+</script>
+</body>
+</html>
